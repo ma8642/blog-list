@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const logger = require("./utils/logger");
 
 let addToDB = true;
 
 if (process.argv.length > 3 && process.argv.length < 7) {
-  console.log(
+  logger.error(
     "Please provide password, blog title, author, url, and likes as arguments: node mongo.js <password> <title> <author> <url> <likes>"
   );
   process.exit(1);
@@ -47,14 +48,14 @@ if (addToDB) {
   });
 
   blog.save().then((result) => {
-    console.log(`added ${blog} to bloglist!`);
+    logger.info(`added ${blog} to bloglist!`);
     mongoose.connection.close();
   });
 } else {
   Blog.find({}).then((result) => {
-    console.log("bloglist:");
+    logger.info("bloglist:");
     result.forEach((blog) => {
-      console.log(`${blog.title} - ${blog.author} (${blog.likes})`);
+      logger.info(`${blog.title} - ${blog.author} (${blog.likes})`);
     });
     mongoose.connection.close();
   });
