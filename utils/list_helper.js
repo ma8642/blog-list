@@ -42,9 +42,37 @@ const mostBlogs = (blogs) => {
   return { author: winningAuthorAndNum[0], blogs: winningAuthorAndNum[1] };
 };
 
+const mostLikes = (blogs) => {
+  /*
+  [{title, author, url, likes}, {title, author, url, likes}]
+  */
+  if (blogs.length === 0) {
+    return {};
+  } else if (blogs.length === 1) {
+    return { author: blogs[0].author, likes: blogs[0].likes };
+  }
+  // calculate hashmap of author : likes
+  let likesPerAuthor = blogs.reduce((mapAuthorToLikes, blog) => {
+    let likes = blog.likes;
+    if (mapAuthorToLikes.hasOwnProperty(blog.author)) {
+      mapAuthorToLikes[blog.author].likes += likes;
+    } else {
+      mapAuthorToLikes[blog.author] = { author: blog.author, likes };
+    }
+    return mapAuthorToLikes;
+  }, {});
+  /* { author : 2, author : 1000 } */
+  // choose highest author with highest likes
+  let winningAuthorAndLikes = _.maxBy(_.values(likesPerAuthor), function (o) {
+    return o["likes"];
+  });
+  return winningAuthorAndLikes;
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };

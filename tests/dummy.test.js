@@ -63,7 +63,7 @@ const listWithManyBlogs = [
   {
     _id: "5a422aa71b54a676234d17g3",
     title: "g",
-    author: "g author",
+    author: "a author",
     url: "g.com",
     likes: 1000, // tied for most popular blog
     __v: 0,
@@ -124,6 +124,23 @@ describe("mostBlogs", () => {
 
   test("of a bigger list is calculated right", () => {
     const result = listHelper.mostBlogs(listWithManyBlogs);
-    expect(result).toEqual({ author: "a author", blogs: 2 }); // returns first of most popular authors
+    expect(result).toEqual({ author: "a author", blogs: 3 });
+  });
+});
+
+describe("mostLikes", () => {
+  test("of empty list is {}", () => {
+    const result = listHelper.mostLikes([]);
+    expect(result).toEqual({});
+  });
+
+  test("when list has only one blog equals that", () => {
+    const result = listHelper.mostLikes(listWithOneBlog);
+    expect(result).toEqual({ author: "a author", likes: 100 });
+  });
+
+  test("of a bigger list is calculated right", () => {
+    const result = listHelper.mostLikes(listWithManyBlogs);
+    expect(result).toEqual({ author: "a author", likes: 1125 }); // returns most-liked author
   });
 });
