@@ -15,7 +15,7 @@ const listWithManyBlogs = [
   {
     _id: "5a422aa71b54a676234d17f8",
     title: "a",
-    author: "a author",
+    author: "a author", // has 2 blogs
     url: "a.com",
     likes: 100,
     __v: 0,
@@ -31,7 +31,7 @@ const listWithManyBlogs = [
   {
     _id: "5a422aa71b54a676234d17g1",
     title: "c",
-    author: "c author",
+    author: "a author", // has 2 blogs
     url: "c.com",
     likes: 25,
     __v: 0,
@@ -41,13 +41,13 @@ const listWithManyBlogs = [
     title: "d",
     author: "d author",
     url: "d.com",
-    likes: 1000,
+    likes: 1000, // tied for most popular blog
     __v: 0,
   },
   {
     _id: "5a422aa71b54a676234d17g3",
     title: "e",
-    author: "e author",
+    author: "e author", // has 2 blogs
     url: "e.com",
     likes: 55,
     __v: 0,
@@ -55,9 +55,17 @@ const listWithManyBlogs = [
   {
     _id: "5a422aa71b54a676234d17g4",
     title: "f",
-    author: "f author",
+    author: "e author", // has 2 blogs
     url: "f.com",
     likes: 1,
+    __v: 0,
+  },
+  {
+    _id: "5a422aa71b54a676234d17g3",
+    title: "g",
+    author: "g author",
+    url: "g.com",
+    likes: 1000, // tied for most popular blog
     __v: 0,
   },
 ];
@@ -82,7 +90,7 @@ describe("totalLikes", () => {
 
   test("of a bigger list is calculated right", () => {
     const result = listHelper.totalLikes(listWithManyBlogs);
-    expect(result).toBe(1231);
+    expect(result).toBe(2231);
   });
 });
 
@@ -99,6 +107,23 @@ describe("favoriteBlog", () => {
 
   test("of a bigger list is calculated right", () => {
     const result = listHelper.favoriteBlog(listWithManyBlogs);
-    expect(result).toEqual({ title: "d", author: "d author", likes: 1000 });
+    expect(result).toEqual({ title: "d", author: "d author", likes: 1000 }); // returns first of most popular blogs
+  });
+});
+
+describe("mostBlogs", () => {
+  test("of empty list is {}", () => {
+    const result = listHelper.mostBlogs([]);
+    expect(result).toEqual({});
+  });
+
+  test("when list has only one blog equals that", () => {
+    const result = listHelper.mostBlogs(listWithOneBlog);
+    expect(result).toEqual({ author: "a author", blogs: 1 });
+  });
+
+  test("of a bigger list is calculated right", () => {
+    const result = listHelper.mostBlogs(listWithManyBlogs);
+    expect(result).toEqual({ author: "a author", blogs: 2 }); // returns first of most popular authors
   });
 });

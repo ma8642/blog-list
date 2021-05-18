@@ -1,3 +1,5 @@
+var _ = require("lodash");
+
 const dummy = (blogs) => {
   return 1;
 };
@@ -25,8 +27,24 @@ const favoriteBlog = (blogs) => {
   return favoriteBlog;
 };
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return {};
+  } else if (blogs.length === 1) {
+    return { author: blogs[0].author, blogs: 1 };
+  }
+
+  let numBlogsPerAuthor = Object.entries(_.countBy(blogs, "author"));
+  let winningAuthorAndNum = _.maxBy(numBlogsPerAuthor, function (o) {
+    return o[1];
+  });
+
+  return { author: winningAuthorAndNum[0], blogs: winningAuthorAndNum[1] };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
