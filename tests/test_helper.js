@@ -19,6 +19,9 @@ const initialBlogs = [
   },
 ];
 
+const newBlog = { title: "c", author: "c author", url: "c.com", likes: 2000 };
+
 module.exports = {
   initialBlogs,
+  newBlog,
 };
