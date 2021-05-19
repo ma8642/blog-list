@@ -20,8 +20,10 @@ const initialBlogs = [
 ];
 
 const newBlog = { title: "c", author: "c author", url: "c.com", likes: 2000 };
+const newBlogMissingLikes = { title: "d", author: "d author", url: "d.com" };
 
 module.exports = {
   initialBlogs,
   newBlog,
+  newBlogMissingLikes,
 };

@@ -43,7 +43,19 @@ test("a valid blog can be added", async () => {
   const response = await api.get("/api/blogs");
   const blogUrls = response.body.map((r) => r.url);
   expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
-  expect(blogUrls).toContain("c.com"); // author of newly added blog
+  expect(blogUrls).toContain("c.com"); // url of newly added blog
+});
+
+test("a blog missing 'likes' will be added with default likes=0", async () => {
+  await api
+    .post("/api/blogs")
+    .send(helper.newBlogMissingLikes)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const response = await api.get("/api/blogs");
+  const blogLikes = response.body.map((r) => r.likes);
+  expect(blogLikes[blogLikes.length - 1]).toBe(0);
 });
 
 afterAll(() => {
