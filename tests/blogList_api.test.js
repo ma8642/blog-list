@@ -58,6 +58,14 @@ test("a blog missing 'likes' will be added with default likes=0", async () => {
   expect(blogLikes[blogLikes.length - 1]).toBe(0);
 });
 
+test("a blog missing 'title' or 'url' can not be added", async () => {
+  await api.post("/api/blogs").send(helper.newBlogMissingTitle).expect(400);
+  await api.post("/api/blogs").send(helper.newBlogMissingUrl).expect(400);
+
+  const response = await api.get("/api/blogs");
+  expect(response.body).toHaveLength(helper.initialBlogs.length);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

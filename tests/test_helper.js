@@ -20,7 +20,24 @@ const initialBlogs = [
 ];
 
 const newBlog = { title: "c", author: "c author", url: "c.com", likes: 2000 };
-const newBlogMissingLikes = { title: "d", author: "d author", url: "d.com" };
+const newBlogMissingLikes = {
+  title: "d",
+  author: "d author",
+  url: "d.com",
+  likes: undefined,
+};
+const newBlogMissingTitle = {
+  title: undefined,
+  author: "e author",
+  url: "e.com",
+  likes: 2000,
+};
+const newBlogMissingUrl = {
+  title: "f",
+  author: "f author",
+  url: undefined,
+  likes: 2000,
+};
 
 module.exports = {
   initialBlogs,
