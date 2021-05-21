@@ -71,7 +71,7 @@ describe("addition of a new blog", () => {
   });
 });
 
-describe("deletion of a new blog", () => {
+describe("deletion of a blog", () => {
   test("succeeds with valid data", async () => {
     const initialBlogs = await helper.getBlogsInDb();
     const blogToDelete = initialBlogs[0];
@@ -80,6 +80,23 @@ describe("deletion of a new blog", () => {
     const finalBlogs = await helper.getBlogsInDb();
     expect(finalBlogs).toHaveLength(initialBlogs.length - 1);
     expect(finalBlogs).not.toContain("a.com"); // 'a' blog should no longer be there
+  });
+});
+
+describe("updating a blog", () => {
+  test("succeeds with valid data", async () => {
+    const initialBlogs = await helper.getBlogsInDb();
+    const blogToUpdate = initialBlogs[1];
+    blogToUpdate.likes += 1;
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const finalBlogs = await helper.getBlogsInDb();
+    expect(finalBlogs).toHaveLength(initialBlogs.length);
+    expect(finalBlogs[1].likes).toBe(51); // likes should be incremented to 51
   });
 });
 
