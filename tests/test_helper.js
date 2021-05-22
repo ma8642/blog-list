@@ -60,6 +60,17 @@ const newUser = {
   password: "&alienzLUVmia",
 };
 
+const newUserShortPassword = {
+  username: "fluffbirdman12",
+  name: "Alio Rex",
+  password: "22",
+};
+const newUserShortUsername = {
+  username: "xo",
+  name: "Xochitl Stillman",
+  password: "22*",
+};
+
 const getUsersInDb = async () => {
   const users = await User.find({});
   return users.map((user) => user.toJSON());
@@ -72,5 +83,7 @@ module.exports = {
   getBlogsInDb,
   initialUsers,
   newUser,
+  newUserShortPassword,
+  newUserShortUsername,
   getUsersInDb,
 };
