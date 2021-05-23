@@ -5,12 +5,7 @@ const User = require("../models/user");
 
 loginRouter.post("/", async (request, response) => {
   const body = request.body;
-  console.log(body.username);
   const user = await User.findOne({ username: body.username });
-  console.log(user.username);
-  console.log(user.name);
-  console.log(user._id);
-  console.log(user.passwordHash);
   const passwordCorrect =
     user === null
       ? false
@@ -25,7 +20,9 @@ loginRouter.post("/", async (request, response) => {
     id: user._id,
   };
 
-  const token = jwt.sign(userForToken, process.env.SECRET);
+  const token = jwt.sign(userForToken, process.env.SECRET, {
+    expiresIn: 60 * 60,
+  });
 
   response
     .status(200)
